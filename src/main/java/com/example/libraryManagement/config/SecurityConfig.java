@@ -54,6 +54,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry.requestMatchers(
                "/api/v1/auth/login",
                         "/api/v1/account/reset-password/**",
+                        "/api/v1/account/create-account",
                         "/actuator/**",
                         "/swagger-ui/**",
                         "/v3/api-docs/**",
