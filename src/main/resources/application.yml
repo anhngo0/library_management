@@ -1,0 +1,52 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/library
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      auto-commit: false
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  messages:
+    basename: i18n/messages
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
+  thymeleaf:
+    mode: HTML
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username:
+    password:
+    base-url: http://127.0.0.1:8080
+#  liquibase:
+#    url: jdbc:postgresql://localhost:5432/library
+#    user: postgres
+#    password: password
+#    change-log: classpath:db/changelog/changelog-master.xml
+
+server:
+  max-http-request-header-size: 5MB
+springdoc:
+  show-actuator: true
+logging:
+  level:
+    root: DEBUG
+application:
+  security:
+    jwt:
+      secret-key: db3c9e170b50381505ae34d438745f897ccb3ad5cbfcc1608eaba3fee5cc5d20
+      expiration: 120000
+    refresh-token:
+      expiration: 3000000
+

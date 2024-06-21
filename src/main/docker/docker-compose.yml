@@ -1,0 +1,21 @@
+#
+#services:
+#  app:
+#    image: 'postgres-library'
+#    build:
+#      context: .
+#    container_name: app
+#    depends_on:
+#       - postgres
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/library
+#      SPRING_DATASOURCE_USERNAME: postgres
+#      SPRING_DATASOURCE_PASSWORD: password
+#      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+#
+#  postgres:
+#    image: 'postgres:13.1-alpine'
+#    container_name: db
+#    environment:
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: password

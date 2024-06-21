@@ -1,0 +1,59 @@
+pipeline {
+
+    agent any
+
+    tools {
+        maven 'my-maven'
+    }
+    environment {
+        POSTGRES_ROOT_LOGIN = credentials('postgresql-credentials')
+    }
+    stages {
+
+
+
+        stage('Packaging/Pushing image') {
+
+            steps {
+                withDockerRegistry(credentialsId: 'dockerhub', url: 'https://index.docker.io/v1/') {
+                    sh 'docker build -t anhngo/springboot_library .'
+                    sh 'docker push anhngo/springboot_library'
+                }
+            }
+        }
+
+        stage('Deploy PostgresSql to DEV') {
+            steps {
+                echo 'Deploying and cleaning'
+                sh 'docker image pull postgres:latest'
+                sh 'docker network create dev || echo "this network exists"'
+                sh 'docker container stop anhngo-postgres || echo "this container does not exist" '
+                sh 'echo y | docker container prune '
+                sh 'docker volume rm anhngo-postgres-data || echo "no volume"'
+
+                sh "docker run --name anhngo-postgres --rm --network dev -v anhngo-postgres-data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=${POSTGRES_CREDENTIALS_PSW} -e POSTGRES_DATABASE=library  -d postgres:latest "
+                sh 'sleep 20'
+                sh "docker exec -i anhngo-postgres psql --username=postgres --dbname=library --command= \"$(< script)\""
+            }
+        }
+
+        stage('Deploy Spring Boot to DEV') {
+            steps {
+                echo 'Deploying and cleaning'
+                sh 'docker image pull anhngo/springboot_library'
+                sh 'docker container stop anhngo-springboot_library || echo "this container does not exist" '
+                sh 'docker network create dev || echo "this network exists"'
+                sh 'echo y | docker container prune '
+
+                sh 'docker container run -d --rm --name anhngo-springboot_library -p 8081:8080 --network dev anhngo/springboot_library'
+            }
+        }
+
+    }
+    post {
+        // Clean after build
+        always {
+            cleanWs()
+        }
+    }
+}
