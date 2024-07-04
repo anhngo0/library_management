@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Data
-public class RoleDto implements Serializable {
+public class RoleDto {
     private Long id;
     private String name;
     private String description;

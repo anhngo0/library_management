@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class ImportTicketFullInfoDto implements Serializable {
+public class ImportTicketFullInfoDto  {
     private Long id;
     private LocalDateTime created_date;
     private LocalDateTime approval_date;

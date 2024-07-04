@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
-public class LiquidationTicketDto implements Serializable {
+public class LiquidationTicketDto  {
     private Long id;
     private LocalDateTime created_date;
     private Double export_price;

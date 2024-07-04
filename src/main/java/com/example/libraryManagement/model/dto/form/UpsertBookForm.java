@@ -8,7 +8,7 @@ import java.math.BigInteger;
 import java.time.Year;
 
 @Data
-public class UpsertBookForm implements Serializable {
+public class UpsertBookForm {
     private String titleName;
     private String alterName;
     private String author;

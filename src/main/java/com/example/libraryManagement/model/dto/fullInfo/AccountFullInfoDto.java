@@ -7,7 +7,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class AccountFullInfoDto implements Serializable {
+public class AccountFullInfoDto  {
     private Long id;
     private String username;
     private String password;

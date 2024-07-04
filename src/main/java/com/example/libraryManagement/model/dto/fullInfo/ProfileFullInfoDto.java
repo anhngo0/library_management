@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class ProfileFullInfoDto implements Serializable {
+public class ProfileFullInfoDto{
     private Long id;
     private String name;
     private Date DoB;

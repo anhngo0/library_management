@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.time.Instant;
 
 @Data
-public class NotificationDto implements Serializable {
+public class NotificationDto  {
     private Long id;
     private String content;
     private Instant createdAt;

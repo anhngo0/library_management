@@ -36,7 +36,7 @@ public class AccountController {
     private final PagedResourcesAssembler<AccountDto> accountDtoPagedResourcesAssembler;
 
     @PostMapping(path = "/create-account", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AccountDto> createAccount(@RequestBody @Valid UpsertAccountForm upsertAccountForm){
+    public ResponseEntity<AccountDto> createAccount(@RequestBody UpsertAccountForm upsertAccountForm){
         return ResponseEntity.ok(accountService.createAccount(upsertAccountForm));
     }
     @GetMapping("/full-info")

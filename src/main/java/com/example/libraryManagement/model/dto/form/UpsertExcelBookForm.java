@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.time.Year;
 
 @Data
-public class UpsertExcelBookForm implements Serializable {
+public class UpsertExcelBookForm  {
     private String titleName;
     private String alterName;
     private String author;

@@ -5,6 +5,6 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class UpsertBookClassNumberForm implements Serializable {
+public class UpsertBookClassNumberForm {
    private String name;
 }

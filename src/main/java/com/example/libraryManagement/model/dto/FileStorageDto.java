@@ -6,7 +6,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class FileStorageDto implements Serializable {
+public class FileStorageDto {
     private Long id;
     private String name;
     private String contentType;

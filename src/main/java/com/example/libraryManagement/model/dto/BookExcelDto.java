@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.time.Year;
 
 @Data
-public class BookExcelDto implements Serializable {
+public class BookExcelDto {
     private String titleName;
     private String alterName;
     private String author;

@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-public class ImportTicketDto implements Serializable {
+public class ImportTicketDto {
     private Long id;
     private LocalDateTime created_date;
     private Double totalPrice;

@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.Set;
 
 @Data
-public class BorrowTicketFullInfoDto  implements Serializable {
+public class BorrowTicketFullInfoDto  {
     private Long id;
     private LocalDateTime borrowed_date;
     private LocalDateTime returned_date;

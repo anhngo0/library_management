@@ -8,7 +8,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class AccountDto implements Serializable {
+public class AccountDto  {
     private Long id;
     private String username;
     private ProfileMinInfoDto profile;

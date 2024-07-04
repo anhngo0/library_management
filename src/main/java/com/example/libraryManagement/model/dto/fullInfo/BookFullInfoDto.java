@@ -12,7 +12,7 @@ import java.math.BigInteger;
 import java.time.Year;
 
 @Data
-public class BookFullInfoDto implements Serializable {
+public class BookFullInfoDto {
     private Long id;
     private String titleName;
     private String alterName;

@@ -64,7 +64,6 @@ public class SecurityConfig {
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(handlerExceptionFilter,JwtAuthenticationFilter.class)
-                .formLogin(httpSecurityFormLoginConfigurer -> httpSecurityFormLoginConfigurer.loginPage("/login"))
                 .logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer
                         .logoutUrl("/api/v1/auth/logout")
                         .logoutSuccessHandler(((request, response, authentication) -> SecurityContextHolder.clearContext()))

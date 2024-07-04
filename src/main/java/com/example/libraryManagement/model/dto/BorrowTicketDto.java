@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
-public class BorrowTicketDto implements Serializable {
+public class BorrowTicketDto  {
     private Long id;
     private LocalDateTime borrowed_date;
     private LocalDateTime returned_date;

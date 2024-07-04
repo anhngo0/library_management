@@ -13,7 +13,7 @@ import java.util.List;
 
 //LIQUIDATION TICKET FULL INFORMATION EXCEPT BOOKs INFO
 @Data
-public class LiquidationTicketFullInfoDto implements Serializable {
+public class LiquidationTicketFullInfoDto{
     private Long id;
     private LocalDateTime created_date;
     private LocalDateTime approval_date;

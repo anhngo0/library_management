@@ -10,7 +10,7 @@ import java.time.Year;
 import java.util.List;
 
 @Data
-public class GetBookParams implements Serializable {
+public class GetBookParams {
     private String keyword;
     private Year yearOfPublicationFrom;
     private Year yearOfPublicationTo;
