@@ -2,6 +2,7 @@ package com.example.libraryManagement.controller;
 
 
 import com.example.libraryManagement.model.dto.FileStorageDto;
+import com.example.libraryManagement.model.entity.Book;
 import com.example.libraryManagement.model.entity.FileDescription;
 import com.example.libraryManagement.model.entity.FileStorage;
 import com.example.libraryManagement.service.IFileStorageService;
@@ -37,5 +38,10 @@ public class FileStorageController {
     }
 
     //Call api get here
+    @GetMapping("/book-image/{id}")
+    public ResponseEntity<?> getBookImages(@PathVariable("id") Long bookId){
 
+        List<FileStorageDto> files = storageService.getAllFilesOfAnEntity(Book.class.getSimpleName(), bookId, FileDescription.IMAGE);
+        return ResponseEntity.status(HttpStatus.OK).body(files);
+    }
 }

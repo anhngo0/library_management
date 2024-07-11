@@ -54,4 +54,12 @@ public interface IBookService {
     void changeListStatus(List<Long> bookList, BookStatus status);
 
     BookDto getBookById(Long id);
+
+    Page<BookDto> getBooksInUseNew(Pageable pageable);
+
+    Page<BookDto> getBooksInUseNominated(Pageable pageable);
+
+    void changeBookStatusToNew(Long bookId);
+
+    void changeBookStatusToNominated(Long bookId);
 }

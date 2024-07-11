@@ -1,3 +1,0 @@
-CREATE USER 'postgres'@'%' IDENTIFIED BY 'password';
-GRANT ALL PRIVILEGES ON library.* TO 'postgres'@'%';
-FLUSH PRIVILEGES;

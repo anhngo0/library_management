@@ -23,6 +23,7 @@ public class HandlerExceptionFilter extends OncePerRequestFilter {
         } catch (JwtException exception){
             logger.atInfo().log("request's uri: "+ request.getRequestURI());
             logger.info(exception.getMessage());
+            throw new RuntimeException("Jwt error");
         }
     }
 }

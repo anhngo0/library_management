@@ -1,12 +1,16 @@
 package com.example.libraryManagement.model.dto.form;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.Year;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UpsertExcelBookForm  {
     private String titleName;
     private String alterName;

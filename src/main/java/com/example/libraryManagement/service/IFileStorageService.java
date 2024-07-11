@@ -17,7 +17,7 @@ public interface IFileStorageService {
     void uploadMultipleFiles(Long associatedEntityId, String associatedEntityType
             , FileDescription fileDescription, MultipartFile... files);
 
-    List<FileStorage> getAllFilesOfAnEntity(String associatedEntityType, Long associatedEntityId, FileDescription fileDescription);
+    List<FileStorageDto> getAllFilesOfAnEntity(String associatedEntityType, Long associatedEntityId, FileDescription fileDescription);
 
     List<FileStorageDto> getAllFilesOfAnEntityWithoutData(String associatedEntityType, Long associatedEntityId, FileDescription fileDescription);
 

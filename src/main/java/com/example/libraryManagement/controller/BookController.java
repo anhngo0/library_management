@@ -63,6 +63,21 @@ public class BookController {
         );
         return ResponseEntity.ok(pagedModel);
     }
+    @GetMapping("/read/new-book")
+    ResponseEntity<PagedModel<EntityModel<BookDto>>> getBooksInUseNew(Pageable pageable){
+        PagedModel<EntityModel<BookDto>> pagedModel = bookDtoPagedResourcesAssembler.toModel(
+                bookService.getBooksInUseNew(pageable)
+        );
+        return ResponseEntity.ok(pagedModel);
+    }
+
+    @GetMapping("/read/nominated-book")
+    ResponseEntity<PagedModel<EntityModel<BookDto>>> getBooksInUseNominated(Pageable pageable){
+        PagedModel<EntityModel<BookDto>> pagedModel = bookDtoPagedResourcesAssembler.toModel(
+                bookService.getBooksInUseNominated(pageable)
+        );
+        return ResponseEntity.ok(pagedModel);
+    }
 
     @GetMapping("/read/{id}")
     ResponseEntity<BookDto> getBookById(@PathVariable("id") Long id){
@@ -80,6 +95,22 @@ public class BookController {
             @RequestPart(name = "file", required = false)MultipartFile file
             ){
         return ResponseEntity.ok(bookService.createBook(upsertBookForm,file));
+    }
+
+    @PutMapping("/new/{id}")
+    ResponseEntity<?> changeBookStatusToNew(
+            @PathVariable(name = "id")  Long bookId
+    ){
+        bookService.changeBookStatusToNew(bookId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PutMapping("/nominated/{id}")
+    ResponseEntity<?> changeBookStatusToNominated(
+            @PathVariable(name = "id")  Long bookId
+    ){
+        bookService.changeBookStatusToNominated(bookId);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PutMapping(value = "/{id}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

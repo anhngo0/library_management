@@ -1,13 +1,17 @@
 package com.example.libraryManagement.model.dto.form;
 
 import com.example.libraryManagement.model.entity.BookStatus;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.Year;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UpsertBookForm {
     private String titleName;
     private String alterName;

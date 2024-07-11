@@ -1,19 +1,14 @@
 package com.example.libraryManagement.query.predicate;
 
 import com.example.libraryManagement.Utils.CommonUtils;
-import com.example.libraryManagement.model.entity.Book;
 import com.example.libraryManagement.model.entity.BookStatus;
 import com.example.libraryManagement.model.entity.QBook;
 import com.example.libraryManagement.query.params.GetBookParams;
-import com.example.libraryManagement.query.params.GetImportTicketParams;
-import com.example.libraryManagement.query.params.GetLiquidationTicketParams;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.swing.text.StyledEditorKit;
 import java.time.Year;
 
 import static org.apache.commons.lang3.BooleanUtils.and;
@@ -24,7 +19,6 @@ public class BookPredicate {
 
         BooleanBuilder where = new BooleanBuilder();
         return where
-                .and(matchStatus(getBookParams.getStatus()))
                 .and(isBookBorrowed(getBookParams.isBorrowed()))
                 .and(matchLiquidationId(getBookParams.getLiquidationTicketId()))
                 .and(matchCategoryId(getBookParams.getCategoryId()))
@@ -33,6 +27,11 @@ public class BookPredicate {
                 .and(yearOfPublicationInBetween(getBookParams.getYearOfPublicationFrom(),getBookParams.getYearOfPublicationTo()))
                 .and(commonAttributeContainKeyword(getBookParams.getKeyword()))
                 ;
+    }
+
+    public static BooleanBuilder getBooksInUseNew() {
+        BooleanBuilder where = new BooleanBuilder();
+        return where.and(matchStatus(BookStatus.IN_USE_NEW));
     }
 
     private static BooleanExpression isBookBorrowed(Boolean isBorrowed){
@@ -75,5 +74,6 @@ public class BookPredicate {
                         .or(book.description.containsIgnoreCase(keyword))
                 : null;
     }
+
 
 }

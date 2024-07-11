@@ -46,10 +46,10 @@ public class ImportTicketPredicate {
         return CommonUtils.validateDateBetween(from,to)? importTicket.created_date.between(from,to):null;
     }
     private static BooleanExpression totalQuantityInBetween(Integer from, Integer to){
-        return (from == null || to == null) ? importTicket.totalQuantity.between(from,to):null;
+        return (from == null || to == null) ? null: importTicket.totalQuantity.between(from,to);
     }
     private static BooleanExpression totalPriceInBetween(Double from, Double to){
-        return (from == null || to == null) ? importTicket.totalPrice.between(from, to):null;
+        return (from == null || to == null) ? null: importTicket.totalPrice.between(from, to);
     }
 
 }

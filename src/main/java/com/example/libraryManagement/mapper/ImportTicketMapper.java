@@ -23,6 +23,7 @@ public abstract class ImportTicketMapper {
     @Autowired
     protected FileStorageService fileStorageService;
 
+    @Mapping(source = "approver.name", target = "approver_name")
     @Mapping(source = "creator.name", target = "creator_name")
     @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
     public abstract ImportTicketDto toDto(ImportTicket importTicket);

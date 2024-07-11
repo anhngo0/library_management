@@ -39,6 +39,7 @@ public class AccountServiceImpl implements IAccountService {
     @Override
     public AccountDto createAccount(UpsertAccountForm upsertAccountForm) {
         Account account = accountMapper.toEntity(upsertAccountForm);
+        logger.atInfo().log(account.getUsername());
         account = accountRepository.save(account);
         return accountMapper.toDto(account);
     }

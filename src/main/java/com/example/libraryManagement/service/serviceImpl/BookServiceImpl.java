@@ -144,4 +144,31 @@ public class BookServiceImpl implements IBookService {
         Book book = bookRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("resource not found"));
         return bookMapper.toDto(book);
     }
+
+    @Override
+    public Page<BookDto> getBooksInUseNew(Pageable pageable) {
+        return bookRepository
+                .findAll(BookPredicate.getBooksInUseNew(),pageable)
+                .map(bookMapper::toDto)
+                ;
+    }
+
+    @Override
+    public Page<BookDto> getBooksInUseNominated(Pageable pageable) {
+        return bookRepository.findAllStatusNominated(pageable).map(bookMapper::toDto);
+    }
+
+    @Override
+    public void changeBookStatusToNew(Long bookId) {
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("No book has found"));
+        book.setStatus(BookStatus.IN_USE_NEW);
+        book = bookRepository.save(book);
+    }
+
+    @Override
+    public void changeBookStatusToNominated(Long bookId) {
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("No book has found"));
+        book.setStatus(BookStatus.IN_USE_NOMINATED);
+        book = bookRepository.save(book);
+    }
 }

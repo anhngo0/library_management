@@ -26,7 +26,7 @@ import java.util.List;
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final List<String>allowedOrigins = List.of("http://localhost:8080");
+    private final List<String>allowedOrigins = List.of("http://localhost:8080", "http://localhost:3000");
     private final ApplicationContext context;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final HandlerExceptionFilter handlerExceptionFilter;
@@ -54,12 +54,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry.requestMatchers(
                "/api/v1/auth/login",
                         "/api/v1/account/reset-password/**",
-                        "/api/v1/account/create-account",
                         "/actuator/**",
                         "/swagger-ui/**",
                         "/v3/api-docs/**",
-                        "/api/v1/book/read/**",
-                        "/library/**"
+                        "/api/v1/book/read/**"
                 ).permitAll().anyRequest().authenticated())
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

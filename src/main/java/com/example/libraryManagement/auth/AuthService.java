@@ -1,5 +1,7 @@
 package com.example.libraryManagement.auth;
 
+import com.example.libraryManagement.mapper.AccountMapper;
+import com.example.libraryManagement.model.dto.AccountDto;
 import com.example.libraryManagement.model.entity.Account;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,9 +27,10 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
+    private final AccountMapper accountMapper;
     private final Logger logger = LoggerFactory.getLogger(AuthService.class);
 
-    public AuthenticationResponse authenticate(LoginForm loginForm, HttpServletResponse response) {
+    public AuthenticationResponse authenticate(LoginForm loginForm) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                 loginForm.getUsername(),
                 loginForm.getPassword()
@@ -38,11 +41,11 @@ public class AuthService {
         String accessToken = jwtService.generateAccessToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
 
-        Cookie cookie = new Cookie("jwt", accessToken);
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        cookie.setMaxAge((int) (3000/ 1000));
-        response.addCookie(cookie);
+//        Cookie cookie = new Cookie("jwt", accessToken);
+//        cookie.setHttpOnly(true);
+//        cookie.setPath("/");
+//        cookie.setMaxAge((int) (3000/ 1000));
+//        response.addCookie(cookie);
         return new AuthenticationResponse(accessToken, refreshToken);
     }
 
@@ -64,5 +67,16 @@ public class AuthService {
             }
         }
         return null;
+    }
+
+    public AccountDto getCurrentUser() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof Account customUser) {
+                return accountMapper.toDto((Account) principal);
+            }
+        }
+        throw new RuntimeException("can not get current user");
     }
 }
