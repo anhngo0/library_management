@@ -10,14 +10,17 @@ import com.example.libraryManagement.model.entity.BookCategory;
 import com.example.libraryManagement.model.entity.BookStatus;
 import org.mapstruct.*;
 
+import java.util.Base64;
+
 @Mapper(
         componentModel = MappingConstants.ComponentModel.SPRING, uses = {
                 IdToEntityMapper.class,LiquidationMapper.class, NameToEntityMapper.class
-}, imports = {BookStatus.class}
+}, imports = {BookStatus.class, Base64.class}
 )
 public abstract class BookMapper {
 
     @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "base64Data", source = "data", qualifiedByName = "encodePassword")
     public abstract BookDto toDto(Book book);
 
     @Mapping(source = "category.name", target = "category")
@@ -30,6 +33,7 @@ public abstract class BookMapper {
     public abstract Book toEntity(UpsertExcelBookForm upsertExcelBookForm);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "base64Data", source = "data", qualifiedByName = "encodePassword")
     public abstract BookFullInfoDto toFullInfoDto(Book book);
 
     @Mapping(source = "categoryId", target = "category")
@@ -42,4 +46,9 @@ public abstract class BookMapper {
     @Mapping(source = "classNumberId", target = "classNumber")
     @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     public abstract Book toEntity_updateBook(@MappingTarget Book book,  UpsertBookForm upsertBookForm);
+
+    @Named("encodePassword")
+    public String encodePassword(byte[] data) {
+        return data == null ? null : Base64.getEncoder().encodeToString(data);
+    }
 }

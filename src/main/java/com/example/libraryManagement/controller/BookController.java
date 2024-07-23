@@ -118,7 +118,7 @@ public class BookController {
             @PathVariable(name = "id")  Long bookId,
             @RequestPart(name = "book") @Valid UpsertBookForm upsertBookForm,
             @RequestPart(name = "file", required = false)MultipartFile file
-    ){
+    ) throws IOException {
         return ResponseEntity.ok(bookService.updateBook(bookId, upsertBookForm, file));
     }
 
@@ -172,12 +172,6 @@ public class BookController {
                 throw new RuntimeException(e);
             }
             bookService.createMultipleBooks(list);
-            //save file upload with current user here
-//            CompletableFuture.runAsync(() -> {
-//                fileStorageService.uploadMultipleFiles(
-//
-//                );
-//            });
 
         return ResponseEntity.status(HttpStatus.OK).body("success");
     }

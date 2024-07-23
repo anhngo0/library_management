@@ -8,7 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface IFileStorageService {
-//    FileStorageDto uploadFile(MultipartFile fileImg) throws IOException;
 
     FileStorage getImgById(Long id);
 
@@ -20,8 +19,5 @@ public interface IFileStorageService {
     List<FileStorageDto> getAllFilesOfAnEntity(String associatedEntityType, Long associatedEntityId, FileDescription fileDescription);
 
     List<FileStorageDto> getAllFilesOfAnEntityWithoutData(String associatedEntityType, Long associatedEntityId, FileDescription fileDescription);
-
-    List<Long> getAllFileIdsOfAnEntity(String associatedEntityType, Long associatedEntityId, FileDescription fileDescription);
-
     void deleteAllFilesOfAnEntity(String associatedEntityType, Long associatedEntityId, FileDescription fileDescription);
 }

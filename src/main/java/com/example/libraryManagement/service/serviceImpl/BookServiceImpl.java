@@ -23,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
@@ -46,32 +47,33 @@ public class BookServiceImpl implements IBookService {
     public BookDto createBook(UpsertBookForm upsertBookForm, MultipartFile file) {
         Book newBook = bookMapper.toEntity(upsertBookForm);
         newBook.setStatus(BookStatus.IN_USE);
-        //add class number before typed book position
-//        newBook.addClassNumberToBookPosition();
+
         newBook = bookRepository.save(newBook);
-        Book book = newBook;
+        Book finalNewBook = newBook;
         CompletableFuture.runAsync(() -> {
-             fileStorageService.uploadMultipleFiles(
-                    book.getId(),
-                    Book.class.getSimpleName(),
-                    FileDescription.IMAGE,
-                    file
-            );
+            if (file != null && !file.isEmpty()) {
+                try {
+                    finalNewBook.setData(file.getBytes());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         });
-        return bookMapper.toDto(newBook);
+      bookRepository.save(finalNewBook);
+
+        return bookMapper.toDto(finalNewBook);
     }
 
 
     @Override
-    public BookDto updateBook(Long bookId, UpsertBookForm upsertBookForm, MultipartFile file) {
+    public BookDto updateBook(Long bookId, UpsertBookForm upsertBookForm, MultipartFile file) throws IOException {
         Book book = bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("resource not found"));
         Book updatedbook = bookMapper.toEntity_updateBook(book, upsertBookForm);
         updatedbook = bookRepository.save(updatedbook);
         if (file != null && !file.isEmpty()) {
-            fileStorageService.deleteAllFilesOfAnEntity(Book.class.getSimpleName(), bookId, FileDescription.IMAGE);
-            fileStorageService.uploadMultipleFiles( bookId,Book.class.getSimpleName(), FileDescription.IMAGE, file);
-
+            updatedbook.setData(file.getBytes());
         }
+        updatedbook = bookRepository.save(updatedbook);
         return bookMapper.toDto(updatedbook);
     }
 
@@ -119,13 +121,11 @@ public class BookServiceImpl implements IBookService {
          return bookList;
     }
 
-    Logger logger = LoggerFactory.getLogger(BookServiceImpl.class);
     @Override
     public void createMultipleBooks(List<UpsertExcelBookForm> list) {
         List<Book> books = new ArrayList<Book>();
         List<Book> finalBooks = books;
         list.forEach(bookForm -> {
-            logger.atInfo().log(bookForm.toString());
             Book book = bookMapper.toEntity(bookForm);
             finalBooks.add(book);
         });

@@ -37,11 +37,4 @@ public class FileStorageController {
         return ResponseEntity.status(HttpStatus.OK).body(file);
     }
 
-    //Call api get here
-    @GetMapping("/book-image/{id}")
-    public ResponseEntity<?> getBookImages(@PathVariable("id") Long bookId){
-
-        List<FileStorageDto> files = storageService.getAllFilesOfAnEntity(Book.class.getSimpleName(), bookId, FileDescription.IMAGE);
-        return ResponseEntity.status(HttpStatus.OK).body(files);
-    }
 }

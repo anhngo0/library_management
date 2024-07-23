@@ -26,6 +26,7 @@ public class BookFullInfoDto {
     private String language;
     private String description;
     private boolean isBorrowed;
+    private String base64Data;
     private BookStatus status;
     private BookCategoryDto category;
     private BookClassNumberDto classNumber;

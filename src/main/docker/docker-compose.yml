@@ -1,21 +1,49 @@
-#
-#services:
-#  app:
-#    image: 'postgres-library'
-#    build:
-#      context: .
-#    container_name: app
-#    depends_on:
-#       - postgres
-#    environment:
-#      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/library
-#      SPRING_DATASOURCE_USERNAME: postgres
-#      SPRING_DATASOURCE_PASSWORD: password
-#      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-#
-#  postgres:
-#    image: 'postgres:13.1-alpine'
-#    container_name: db
-#    environment:
-#      POSTGRES_USER: postgres
-#      POSTGRES_PASSWORD: password
+
+services:
+  #  postgresql:
+  #    image: postgres:16
+  #    container_name: postgresql-db
+  #    ports:
+  #      - "5432:5432"
+  #    environment:
+  #      POSTGRES_DB: library
+  #      POSTGRES_USER: postgres
+  #      POSTGRES_PASSWORD: password
+  #
+  ##      mounts the postgresql-data volume at /var/lib/postgresql/data inside the container
+  #    volumes:
+  #      - postgresql-data:/var/lib/postgresql/data
+  ##      - ./src/main/resources/db/init_database.sql:/docker-entrypoint-initdb.d/init_database.sql
+  #    networks:
+  #      - library_network
+
+  spring-boot-app:
+    image: my-spring-boot-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/library
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "true"
+      SERVER_PORT: 8080
+    volumes:
+      - ./src/main/resources:/app/src/main/resources
+    #    depends_on:
+    #      - postgresql
+    networks:
+      - library_network
+
+#  Stores data on the host filesystem.
+volumes:
+  postgresql-data:
+    driver: local
+
+networks:
+  library_network:
+    driver: bridge

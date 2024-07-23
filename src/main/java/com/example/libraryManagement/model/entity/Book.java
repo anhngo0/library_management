@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigInteger;
+import java.sql.Blob;
 import java.time.Year;
 import java.util.Set;
 
@@ -44,8 +45,11 @@ public class Book {
     private String publisher;
     private String language;
     private String description;
-    @Column(name = "is_Borrowed")
     private boolean isBorrowed = false;
+
+    @Lob
+    @Column(length = 100000, name = "data")
+    byte[] data;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

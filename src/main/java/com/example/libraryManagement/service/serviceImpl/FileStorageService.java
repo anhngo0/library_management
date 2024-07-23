@@ -103,11 +103,6 @@ public class FileStorageService implements IFileStorageService {
     }
 
     @Override
-    public List<Long> getAllFileIdsOfAnEntity(String associatedEntityType, Long associatedEntityId, FileDescription fileDescription) {
-        return getAllFilesOfAnEntity(associatedEntityType, associatedEntityId, fileDescription).parallelStream().map(FileStorageDto::getId).toList();
-    }
-
-    @Override
     public void deleteAllFilesOfAnEntity(String associatedEntityType, Long associatedEntityId, FileDescription fileDescription) {
         List<FileStorage> fileStorages = (List<FileStorage>) fileStorageRepository.findAll(FileStoragePredicate.getFileStoragePredicate(new GetFileStoragesQueryParam(
                 associatedEntityId,

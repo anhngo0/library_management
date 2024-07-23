@@ -28,5 +28,5 @@ public class BookDto {
     private int quantity;
     private BookCategoryDto category ;
     private BookClassNumberDto classNumber;
-
+    private String base64Data;
 }

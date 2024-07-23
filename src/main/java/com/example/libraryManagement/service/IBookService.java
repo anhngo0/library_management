@@ -16,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -29,7 +30,7 @@ public interface IBookService {
     BookDto createBook(UpsertBookForm upsertBookForm, MultipartFile file);
 
     @PreAuthorize("hasAnyRole('ROLE_MANAGER','ROLE_LIBRARIAN') or hasAuthorities(\"BOOK.UPDATE\")")
-    BookDto updateBook(Long bookId, UpsertBookForm upsertBookForm, MultipartFile file);
+    BookDto updateBook(Long bookId, UpsertBookForm upsertBookForm, MultipartFile file) throws IOException;
 
     @PreAuthorize("hasAnyRole('ROLE_MANAGER','ROLE_LIBRARIAN') or hasAuthorities(\"BOOK.DELETE\")")
     Object deleteBook(Long bookId);

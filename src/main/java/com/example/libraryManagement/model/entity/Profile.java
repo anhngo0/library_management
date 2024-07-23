@@ -43,4 +43,5 @@ public class Profile {
 
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
+
 }
