@@ -58,7 +58,7 @@ public class AccountController {
     }
 
     @PostMapping(path = "/account/reset-password/init")
-    public void requestPasswordReset(@RequestBody String mail) {
+    public void requestPasswordReset(@RequestParam(value = "email", required = true) String mail) {
         Optional<Account> account = accountService.requestPasswordReset(mail);
         if (account.isPresent()) {
             mailService.sendResetPasswordEmail(mail, account.get().getResetKey());
