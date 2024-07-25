@@ -13,10 +13,7 @@ import java.util.Date;
 
 public class CommonUtils {
     public static boolean validateBetweenNotAnyNull(Object from, Object to) {
-        if (from == null || to == null) {
-            return true;
-        }
-        return false;
+        return from == null || to == null;
     }
     public static boolean validateYearBetween(Year from, Year to) {
         if (validateBetweenNotAnyNull(from, to))
@@ -53,16 +50,4 @@ public class CommonUtils {
         return originalFileName.substring(originalFileName.lastIndexOf('.') + 1);
     }
 
-    public static Workbook getWorkbook(String excelFileExtension) throws IOException {
-        Workbook workbook = null;
-
-        if (excelFileExtension.endsWith("xlsx")) {
-            workbook = new XSSFWorkbook();
-        } else if (excelFileExtension.endsWith("xls")) {
-            workbook = new HSSFWorkbook();
-        } else {
-            throw new IllegalArgumentException("The specified file is not Excel file");
-        }
-        return workbook;
-    }
 }
