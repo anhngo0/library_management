@@ -41,9 +41,10 @@ public class MailService implements IMailService {
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage,false, StandardCharsets.UTF_8.name());
             message.setTo(toEmail);
             message.setFrom(from);
-            message.setSubject("Password Reset");
-            message.setText("pleaseClickThisLinkToResetYourPassword",
-                    baseUrl + "/reset-password/confirm?uuid=" + resetKey);
+            message.setSubject("Làm mới mật khẩu");
+            String htmlContent = "<html><body><p>click vào link sau để làm mới mật khẩu <a href='" + baseUrl + "/reset-password/confirm?uuid="
+                    + resetKey + "'>Làm mới mật khẩu</a> .</p></body></html>";
+            message.setText(htmlContent, true);
             mailSender.send(mimeMessage);
             logger.debug("Sent email to User '{}'", toEmail);
         } catch (MailException | MessagingException e) {
