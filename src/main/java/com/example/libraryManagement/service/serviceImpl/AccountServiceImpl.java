@@ -76,8 +76,8 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     public void requestPasswordReset(String mail) {
-        logger.atInfo().log(mail);
         Optional<Account> accountOptional = accountRepository.findOneByProfileEmailIgnoreCase(mail);
+        logger.atInfo().log(accountOptional.toString());
         if(accountOptional.isPresent()){
             String uuid = UUID.randomUUID().toString();
             Account account = accountOptional.get();
