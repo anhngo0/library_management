@@ -45,8 +45,8 @@ public class Account implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @Size(max = 20)
-    @Column(name = "reset_key", length = 20)
+    @Size(max = 36) // uuid.randomUUID().toString() is 36 character long
+    @Column(name = "reset_key")
     @JsonIgnore
     private String resetKey;
 

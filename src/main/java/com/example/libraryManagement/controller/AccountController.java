@@ -30,7 +30,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AccountController {
     private final IAccountService accountService;
-
     private final Logger logger = LoggerFactory.getLogger(AccountController.class);
     private final PagedResourcesAssembler<AccountFullInfoDto> pagedResourcesAssembler;
     private final PagedResourcesAssembler<AccountDto> accountDtoPagedResourcesAssembler;
@@ -57,14 +56,14 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.OK).body("delete success");
     }
 
-    @PostMapping(path = "/account/reset-password/init")
+    @PostMapping(path = "/reset-password/init")
     public void requestPasswordReset(@RequestParam(value = "email", required = true) String email) {
         logger.atInfo().log(email);
        accountService.requestPasswordReset(email);
     }
 
     //get the resetKey from the url
-    @PostMapping(path = "/account/reset-password/finish")
+    @PostMapping(path = "/reset-password/finish")
     public void finishPasswordReset(@RequestBody ResetPasswordForm resetPasswordForm) {
          accountService.completePasswordReset(resetPasswordForm.getNewPassword(), resetPasswordForm.getResetKey());
     }
