@@ -11,6 +11,7 @@ import com.example.libraryManagement.model.repository.AccountRepository;
 import com.example.libraryManagement.query.params.GetAccountParams;
 import com.example.libraryManagement.query.predicate.AccountPredicate;
 import com.example.libraryManagement.service.IAccountService;
+import com.example.libraryManagement.service.IMailService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,7 @@ public class AccountServiceImpl implements IAccountService {
     private final AccountMapper accountMapper;
     private final Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
     private final PasswordEncoder passwordEncoder;
+    private final IMailService mailService;
 
     @Override
     public AccountDto createAccount(UpsertAccountForm upsertAccountForm) {
@@ -66,8 +68,6 @@ public class AccountServiceImpl implements IAccountService {
         List<Long> accountIdList = new ArrayList<Long>();
         accountRepository.findAll(AccountPredicate.findByProfileRole(userRole)).forEach(
                 account -> {
-                    logger.atInfo().log(String.valueOf(account));
-                    logger.atInfo().log(String.valueOf(account.getId()));
                     accountIdList.add(account.getId());
                 }
         );
@@ -75,14 +75,21 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public Optional<Account> requestPasswordReset(String mail) {
-        return accountRepository
-                .findOneByProfileEmailIgnoreCase(mail)
-                .map(user -> {
-                    user.setResetKey(UUID.randomUUID().toString());
-                    user.setResetDate(Instant.now());
-                    return user;
-                });
+    public void requestPasswordReset(String mail) {
+        logger.atInfo().log(mail);
+        Optional<Account> accountOptional = accountRepository.findOneByProfileEmailIgnoreCase(mail);
+        if(accountOptional.isPresent()){
+            String uuid = UUID.randomUUID().toString();
+            Account account = accountOptional.get();
+            account.setResetKey(uuid);
+            account.setResetDate(Instant.now());
+            accountRepository.save(account);
+
+            mailService.sendResetPasswordEmail(mail, uuid);
+        } else {
+            throw new ResourceNotFoundException("Resource not found");
+        }
+
     }
 
     /*find account by reset key and check if the request has expired after 15 minutes or not*/

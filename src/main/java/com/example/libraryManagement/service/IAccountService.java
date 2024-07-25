@@ -31,7 +31,7 @@ public interface IAccountService {
     @PreAuthorize("hasAnyRole('ROLE_MANAGER','ROLE_LIBRARIAN')")
     List<Long> getAccountIdByRole(UserRole userRole);
 
-    Optional<Account> requestPasswordReset(String mail);
+    void requestPasswordReset(String mail);
 
     void completePasswordReset(String newPassword, String resetKey);
 }

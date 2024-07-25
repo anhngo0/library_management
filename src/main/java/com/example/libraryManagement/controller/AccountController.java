@@ -30,7 +30,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AccountController {
     private final IAccountService accountService;
-    private final IMailService mailService;
+
     private final Logger logger = LoggerFactory.getLogger(AccountController.class);
     private final PagedResourcesAssembler<AccountFullInfoDto> pagedResourcesAssembler;
     private final PagedResourcesAssembler<AccountDto> accountDtoPagedResourcesAssembler;
@@ -59,12 +59,7 @@ public class AccountController {
 
     @PostMapping(path = "/account/reset-password/init")
     public void requestPasswordReset(@RequestParam(value = "email", required = true) String mail) {
-        Optional<Account> account = accountService.requestPasswordReset(mail);
-        if (account.isPresent()) {
-            mailService.sendResetPasswordEmail(mail, account.get().getResetKey());
-        } else {
-            logger.warn("Password reset requested for non existing mail");
-        }
+       accountService.requestPasswordReset(mail);
     }
 
     //get the resetKey from the url

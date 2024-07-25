@@ -16,5 +16,5 @@ public interface AccountRepository extends ParentRepository<Account,Long> {
     Optional<Account> findOneByResetKey(String resetKey);
 
     @Query("SELECT a FROM Account a JOIN a.profile p WHERE LOWER(p.email) = LOWER(:email)")
-    Optional<Account> findOneByProfileEmailIgnoreCase( @Param("email") String email);
+    Optional<Account> findOneByProfileEmailIgnoreCase(@Param("email") String email);
 }
