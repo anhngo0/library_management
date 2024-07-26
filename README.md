@@ -5,7 +5,8 @@
 -  Clone this project.  
 -  Open this project folder on your terminal.
 -  To run the reset password function , please replace the spring:mail:properties:mail:username and spring:mail:properties:mail:password with your suitable email and password.
--  After running successfully, you can use account with username: NhatAn and password: NhatAn to login in manager role. / or username: MaiAnh and password: Graeme139 to login in librarian role
+-  After running successfully, you create a database named library in postgresql, execute sql commands in library_v5.sql file in resources/data folder. 
+-  Then, you can use account with username: NhatAn and password: NhatAn to login in manager role. / or username: MaiAnh and password: Graeme139 to login in librarian role
 ### Using Docker:
         - Prerequisite: Having docker installed on your computer
         - Steps:  Run command 'docker-compose up --build'
