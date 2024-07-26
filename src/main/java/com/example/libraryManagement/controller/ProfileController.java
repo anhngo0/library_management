@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -52,6 +53,12 @@ public class ProfileController {
     ) {
         logger.info(upsertProfileForm.toString());
         return ResponseEntity.ok(profileService.createManagerProfile(upsertProfileForm,file));
+    }
+
+    @PutMapping(value = "/current-user-change", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> changeCurrentUserInfo( @RequestBody UpsertProfileForm upsertProfileForm) {
+        profileService.changeCurrentUserProfile(upsertProfileForm);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @GetMapping("/fullInfo/{id}")

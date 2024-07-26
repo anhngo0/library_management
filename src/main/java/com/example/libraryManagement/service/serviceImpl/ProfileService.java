@@ -1,10 +1,12 @@
 package com.example.libraryManagement.service.serviceImpl;
 
+import com.example.libraryManagement.Utils.SecurityUtils;
 import com.example.libraryManagement.exeption.ResourceNotFoundException;
 import com.example.libraryManagement.mapper.ProfileMapper;
 import com.example.libraryManagement.model.dto.fullInfo.ProfileFullInfoDto;
 import com.example.libraryManagement.model.dto.ProfileMinInfoDto;
 import com.example.libraryManagement.model.dto.form.UpsertProfileForm;
+import com.example.libraryManagement.model.entity.Account;
 import com.example.libraryManagement.model.entity.FileDescription;
 import com.example.libraryManagement.model.entity.Profile;
 import com.example.libraryManagement.model.entity.UserRole;
@@ -132,6 +134,20 @@ public class ProfileService implements IProfileService {
             profileRepository.deleteAllById(ids);
         } catch (RuntimeException e){
             throw new ResourceNotFoundException("resource not found exception");
+        }
+    }
+
+    @Override
+    public Profile changeCurrentUserProfile(UpsertProfileForm upsertProfileForm) {
+        if(SecurityUtils.getCurrentLoggedInUser().isPresent()){
+            Account account = (Account) SecurityUtils.getCurrentLoggedInUser().get();
+            Profile profile = profileRepository.findById(account.getProfile().getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Resource profile not found:"));
+            profile = profileMapper.toEntity_update(upsertProfileForm, profile);
+            profile = profileRepository.save(profile);
+            return profile;
+        } else {
+            throw new RuntimeException("No user logged in");
         }
     }
 }

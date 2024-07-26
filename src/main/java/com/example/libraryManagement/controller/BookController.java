@@ -150,9 +150,10 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.OK).body(encoding);
     }
 
-    @PutMapping(value = "/change-status", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> changeBookStatuses(List<Long> bookList, BookStatus status){
-        bookService.changeListStatus(bookList, status);
+//    Remove books from nominated list or new list
+    @PutMapping(value = "/remove-list", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> removeBookFromSpecialList(@RequestBody List<Long> bookList){
+        bookService.removeBookFromSpecialList(bookList);
         return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 

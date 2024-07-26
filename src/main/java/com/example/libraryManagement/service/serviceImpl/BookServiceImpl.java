@@ -133,9 +133,9 @@ public class BookServiceImpl implements IBookService {
     }
 
     @Override
-    public void changeListStatus(List<Long> bookList, BookStatus status) {
+    public void removeBookFromSpecialList(List<Long> bookList) {
         List<Book> books = bookRepository.findAllById(bookList);
-        books.forEach(book -> book.setStatus(status));
+        books.forEach(book -> book.setStatus(BookStatus.IN_USE));
         bookRepository.saveAll(books);
     }
 

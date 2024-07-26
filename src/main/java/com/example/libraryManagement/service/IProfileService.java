@@ -3,6 +3,7 @@ package com.example.libraryManagement.service;
 import com.example.libraryManagement.model.dto.fullInfo.ProfileFullInfoDto;
 import com.example.libraryManagement.model.dto.ProfileMinInfoDto;
 import com.example.libraryManagement.model.dto.form.UpsertProfileForm;
+import com.example.libraryManagement.model.entity.Profile;
 import com.example.libraryManagement.query.params.GetProfileParams;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,4 +38,6 @@ public interface IProfileService {
     void deleteProfile(Long id);
 
     void deleteProfilesInIds(List<Long> ids);
+
+    Profile changeCurrentUserProfile(UpsertProfileForm upsertProfileForm);
 }

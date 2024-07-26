@@ -51,8 +51,8 @@ public interface IBookService {
     @PreAuthorize("hasAnyRole('ROLE_MANAGER','ROLE_LIBRARIAN') or hasAuthorities(\"BOOK.CREATE\")")
     void createMultipleBooks(List<UpsertExcelBookForm> list);
 
-    @PreAuthorize("hasAnyRole('ROLE_MANAGER') or hasAuthorities(\"BOOK.CHANGE_STATUS\")")
-    void changeListStatus(List<Long> bookList, BookStatus status);
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER','ROLE_LIBRARIAN') or hasAuthorities(\"BOOK.CHANGE_STATUS\")")
+    void removeBookFromSpecialList(List<Long> bookList);
 
     BookDto getBookById(Long id);
 
@@ -60,7 +60,9 @@ public interface IBookService {
 
     Page<BookDto> getBooksInUseNominated(Pageable pageable);
 
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER','ROLE_LIBRARIAN') or hasAuthorities(\"BOOK.CHANGE_STATUS\")")
     void changeBookStatusToNew(Long bookId);
 
+    @PreAuthorize("hasAnyRole('ROLE_MANAGER','ROLE_LIBRARIAN') or hasAuthorities(\"BOOK.CHANGE_STATUS\")")
     void changeBookStatusToNominated(Long bookId);
 }

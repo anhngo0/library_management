@@ -1,5 +1,6 @@
 package com.example.libraryManagement.auth;
 
+import com.example.libraryManagement.Utils.SecurityUtils;
 import com.example.libraryManagement.mapper.AccountMapper;
 import com.example.libraryManagement.model.dto.AccountDto;
 import com.example.libraryManagement.model.entity.Account;
@@ -69,13 +70,10 @@ public class AuthService {
         return null;
     }
 
-    public AccountDto getCurrentUser() {
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof Account customUser) {
-                return accountMapper.toDto((Account) principal);
-            }
+    public AccountDto getCurrentUserDto() {
+        if(SecurityUtils.getCurrentLoggedInUser().isPresent()){
+            Account account = (Account) SecurityUtils.getCurrentLoggedInUser().get();
+            return accountMapper.toDto(account);
         }
         throw new RuntimeException("can not get current user");
     }

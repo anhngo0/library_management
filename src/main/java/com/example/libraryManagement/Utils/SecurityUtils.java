@@ -33,23 +33,5 @@ public class SecurityUtils {
                 .orElse(new RuntimeException("No current logged in account").getMessage());
     }
 
-    public static Optional<String> getCurrentUserJWT() {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        return Optional.ofNullable(securityContext.getAuthentication())
-                .filter(authentication -> authentication.getCredentials() instanceof String)
-                .map(authentication -> (String) authentication.getCredentials());
-    }
-    public static List<SimpleGrantedAuthority> getCurrentLoggedInUserAuthorities() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication.getAuthorities().stream().map(SimpleGrantedAuthority.class::cast).toList();
-    }
-    public static boolean currentUserHasAnyAuthorities(String... authorities) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        for (String authority : authorities) {
-            if (authentication.getAuthorities().contains(new SimpleGrantedAuthority(authority))) {
-                return true;
-            }
-        }
-        return false;
-    }
+
 }
